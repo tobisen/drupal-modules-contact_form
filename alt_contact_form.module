@@ -1,0 +1,55 @@
+<?php
+/**
+ * Implements hook_form_alter().
+ */
+function alt_contact_form_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'contact_site_form':
+
+      unset($form['subject']);
+      unset($form['copy']);
+      unset($form['message']);
+
+/*
+$form['name'] = array(
+   '#prefix' => '<label for="edit-firstname">' . t('First Name'),
+   '#suffix' => '</label>',
+);
+*/
+
+      $form['name']['#prefix'] = '<label for="edit-name" class="before-name">';
+      $form['name']['#suffix'] = '</label">';
+      $form['mail']['#prefix'] = '<label for="edit-name" class="before-mail">';
+      $form['mail']['#suffix'] = '</label">';
+      $form['name']['#title'] = 'Ditt namn';
+      $form['name']['#default_value'] = 'Ditt namn';
+      $form['mail']['#title'] = 'Din E-postadress';
+      $form['mail']['#default_value'] = 'Din E-postadress';
+
+      $form['tel'] = array(
+        '#title' => t('Ditt telefonnummer'),
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#default_value' => t('Ditt telefonummer'),
+      );
+
+      $form['tel']['#prefix'] = '<label for="edit-name" class="before-tel">';
+      $form['tel']['#suffix'] = '</label">';
+      $form['name']['#title_display'] = 'invisible';
+      $form['mail']['#title_display'] = 'invisible';
+      $form['tel']['#title_display'] = 'invisible';
+
+      $order = array(
+          '1' => 'name',
+          '2' => 'mail',
+          '3' => 'tel',
+      );
+      foreach ($order as $key => $field) {
+        $form[$field]['#weight'] = $key;
+      }
+
+      break;
+  }
+}
+
+?>
